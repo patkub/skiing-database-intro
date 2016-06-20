@@ -1,0 +1,343 @@
+Break down relations into FDs that apply
+Identify Keys
+
+3rd NF
+GOOD IF KEY (without the extra crap) on left side
+BAD IF left side does not contain a key
+IF BAD, split FD's up
+
+
+
+Employee(ResortName, Address, EmployeeID, EmployeeName, Salary)
+WorksFor(ResortName, Address, EmployeeID, ResortName, Address, Since)
+SkiResort(ResortName, Address)
+
+Lifts(ChairNumber, Capacity, ResortName, Address)
+Skier(ChairNumber, skierName)
+Gondola(ChairNumber, RackCapacity)
+ChairLift(ChairNumber, SafetyBar)
+
+Sells(saleItemID, ResortName, Address)
+Sale-Items(saleItemID, Price)
+Tickets(saleItemID, Time, ExpirationDate)
+Skis(saleItemID, Name, Height)
+
+Rents(rental-ItemID, ResortName, Address)
+Rental-Items(rental-ItemID, Type)
+
+
+-----------------
+Employee Relation
+-----------------
+
+Employee(ResortName, EmployeeID, EmployeeName, Salary)
+ResortName, EmployeeID -> EmployeeName, Salary
+
+Employee(A, B, C, D)
+AB -> CD is a good FD because AB is a key
+
+A+ = A
+B+ = B
+C+ = C
+D+ = D
+AB+ = ABCD 		<-- AB is a minimal key, AB->C and AB->D
+AC+ = AC
+AD+ = AD
+BC+ = BC
+BD+ = BD
+CD+ = CD
+ABC+ = ABCD		<-- superkey
+ABD+ = ABCD		<-- superkey
+ACD+ = ACD
+BCD+ = BCD
+ABCD+ = ABCD	<-- superkey
+
+No violations, Employee relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+----------------
+WorkFor Relation
+----------------
+
+WorksFor(ResortName, Address, EmployeeID, ResortName, Address, Since)
+ResortName, Address, EmployeeID, ResortName, Address -> Since
+
+WorksFor(A, B, C, D, E, F)
+ABCDE -> F is a good FD because ABCDE is a key
+
+A+ = A
+B+ = B
+C+ = C
+D+ = D
+E+ = E
+F+ = F
+AB+ = AB
+AC+ = AC
+AD+ = AD
+AE+ = AE
+AF+ = AF
+BC+ = BC
+BD+ = BD
+BE+ = BE
+CD+ = CD
+CE+ = CE
+DE+ = DE
+EF+ = EF
+ABC+ = ABC
+ABD+ = ABD
+ABE+ = ABE
+ABF+ = ABF
+ACD+ = ACD
+ACE+ = ACE
+ACF+ = ACF
+ADE+ = ADE
+ADF+ = ADF
+AEF+ = AEF
+BCD+ = BCD
+BCE+ = BCF
+BCF+ = BCF
+BDE+ = BDE
+BDF+ = BDF
+BEF+ = BEF
+CDE+ = CDE
+CDF+ = CDF
+CEF+ = CEF
+DEF+ = DEF
+ABCD+ = ABCD
+ABCE+ = ABCE
+ABDE+ = ABDE
+ACDE+ = ACDE
+ABCF+ = ABCF
+ABDF+ = ABDF
+ABEF+ = ABEF
+ACDF+ = ACDF
+ACEF+ = ACEF
+ADEF+ = ADEF
+BCDE+ = BCDE
+BCDF+ = BCDF
+BCEF+ = BCEF
+BDEF+ = BDEF
+CDEF+ = CDEF
+ABCDE+ = ABCDEF		<-- ABCDE is a minimal key
+ABCDF+ = ABCDF
+ABCEF+ = ABCEF
+ABDEF+ = ABDEF
+ACDEF+ = ACDEF
+BCDEF+ = BCDEF
+ABCDEF+ = ABCDEF	<-- superkey
+
+No violations, WorkFor relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+------------------
+SkiResort Relation
+------------------
+
+SkiResort(ResortName, Address)
+ResortName, Address -> ResortName, Address
+
+SkiResort(A, B)
+AB -> AB
+
+A+ = A
+B+ = B
+AB+ = AB	<-- AB is a minimal key
+
+No violations, SkiResort relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+--------------
+Lifts Relation
+--------------
+
+Lifts(ChairNumber, Capacity, ResortName, Address)
+ChairNumber -> Capacity, ResortName, Address
+
+Lifts(A, B, C, D)
+A -> BCD
+
+A+ = ABCD		<-- A is a minimal key
+B+ = B
+AB+ = ABCD		<-- superkey, AB -> CD
+AC+ = ABCD		<-- superkey, AC -> BD
+AD+ = ABCD		<-- superkey, AD -> BC
+BC+ = BC
+BD+ = BD
+CD+ = CD
+ABC+ = ABCD		<-- superkey, ABC -> D
+ABD+ = ABCD		<-- superkey, ABD -> C
+ACD+ = ABCD		<-- superkey, ACD -> B
+BCD+ = BCD
+ABCD+ = ABCD	<-- superkey
+
+No violations, SkiResort relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+--------------
+Skier Relation
+--------------
+
+Skier(ChairNumber, skierName)
+ChairNumber -> skierName
+
+Skier(A, B)
+A -> B
+
+A+ = AB		<-- A is a minimal key
+B+ = B
+AB+ = AB	<-- superkey
+
+No violations, Skier relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+----------------
+Gondola Relation
+----------------
+
+Gondola(ChairNumber, RackCapacity)
+ChairNumber -> RackCapacity
+
+Gondola(A, B)
+A -> B
+
+A+ = AB		<-- A is a minimal key
+B+ = B
+AB+ = AB
+
+No violations, Gondola relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+------------------
+ChairLift Relation
+------------------
+
+ChairLift(ChairNumber, SafetyBar)
+ChairNumber -> SafteyBar
+
+ChairLift(A, B)
+A -> B
+
+A+ = AB		<-- A is a minimal key
+B+ = B
+AB+ = AB	<- superkey
+
+No violations, ChairLift relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+--------------
+Sells Relation
+--------------
+
+Sells(saleItemID, ResortName, Address)
+saleItemID -> ResortName, Address
+
+Sales(A, B, C)
+A -> BC
+
+A+ = ABC	<-- A is a minimal key
+B+ = B
+C+ = C
+AB+ = ABC	<-- superkey
+AC+ = ABC	<-- superkey
+BC+ = BC
+ABC+ = ABC	<-- superkey
+
+No violations, Sells relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+-------------------
+Sale-Items Relation
+-------------------
+
+Sale-Items(saleItemID, Price)
+saleItemID -> Price
+
+Sale-Items(A, B)
+A -> B
+
+A+ = AB		<-- A is a minimal key
+B+ = B
+AB+ = AB
+
+No violations, Sale-Items relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+----------------
+Tickets Relation
+----------------
+
+Tickets(saleItemID, Time, ExpirationDate)
+saleItemID -> Time, ExpirationDate
+
+Tickets(A, B, C)
+A -> BC
+
+A+ = ABC	<-- A is a minimal key
+B+ = B
+C+ = C
+AB+ = ABC	<-- superkey
+AC+ = ABC	<-- superkey
+BC+ = BC
+ABC+ = ABC	<-- superkey
+
+No violations, Tickets relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+-------------
+Skis Relation
+-------------
+
+Skis(saleItemID, Name, Height)
+saleItemID -> Name, Height
+
+Tickets(A, B, C)
+A -> BC
+
+A+ = ABC	<-- A is a minimal key
+B+ = B
+C+ = C
+AB+ = ABC	<-- superkey
+AC+ = ABC	<-- superkey
+BC+ = BC
+ABC+ = ABC	<-- superkey
+
+No violations, Skis relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+--------------
+Rents Relation
+--------------
+
+Rents(rental-ItemID, ResortName, Address)
+rental-ItemID -> ResortName, Address
+
+Rents(A, B, C)
+A -> BC
+
+A+ = ABC	<-- A is a minimal key
+B+ = B
+C+ = C
+AB+ = ABC	<-- superkey
+AC+ = ABC	<-- superkey
+BC+ = BC
+ABC+ = ABC	<-- superkey
+
+No violations, Rents relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
+
+---------------------
+Rental-Items Relation
+---------------------
+
+Rental-Items(rental-ItemID, Type)
+rental-ItemID -> Type
+
+Rental-Items(A, B)
+A -> B
+
+A+ = AB		<-- A is a minimal key
+B+ = B
+AB+ = AB	<-- superkey
+
+No violations, Rental-Items relation is in BCNF.
+The relation is in 3rd Normal Form because the relation has no trivial FD's.
